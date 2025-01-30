@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd
+		 http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context.xsd">
+		 
+	<bean id="negocio" class="es.cursosprhib.spr01xml.servicios.ServicioConAccesoADatosImpl">
+		 <property name="ClienteDAO" ref="cDAO"></property>
+	</bean>
+		 
+		 
+	<bean id="cDAO" class="es.cursosprhib.spr01xml.persistencia.ClienteDAOImpl">
+		<constructor-arg type="javax.sql.DataSource" ref="dataSource"></constructor-arg>
+	</bean>
+	
+	<context:property-placeholder location="classpath:app.properties"/>
+	<!-- le das el archivo de properties en dónde se indica los valores de url, driver
+	username, password. -->
+	
+	<beans profile="produccion">
+	<!-- este perfil y bean es para la bbdd pruebas -->
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+			<property name="url" value = "${bbdd.url}"/> 
+			<!-- ${} expression language, se utiliza para acceder a objetos java desde fuera de java -->
+			<property name="DriverClassName" value = "${bbdd.driver}"/>
+			<property name="Username" value = "${bbdd.user}"/>
+			<property name="Password" value = "${bbdd.password}"/>
+		</bean>	
+	</beans>
+	
+
+	
+<!-- este perfil y bean es para la bbdd pruebas_desarrollo -->
+
+	<beans profile="desarrollo">
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+			<property name="url" value = "${bbdd.des.url}"/> 
+			<!-- ${} expression language, se utiliza para acceder a objetos java desde fuera de java -->
+			<property name="DriverClassName" value = "${bbdd.des.driver}"/>
+			<property name="Username" value = "${bbdd.des.user}"/>
+			<property name="Password" value = "${bbdd.des.password}"/>
+		</bean>
+	</beans>
+	
+	
+</beans>
+
