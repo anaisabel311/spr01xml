@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd
+		 http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context.xsd">
+		 
+		 		 
+	<!-- <bean id="DAObean" class="persistencia.BancoDaoImpl">
+		<constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
+	</bean>  no hace falta porque he puesto una anotación en la clase @Repository-->
+	
+	<!-- <bean id="pepito" class="negocio.BancoNegocioImpl">
+		<property name="bancoDao" ref="DAObean"></property>
+	</bean>  -->
+	
+	<!-- <bean id="pepito" class="negocio.BancoNegocioImpl">
+		<constructor-arg type="persistencia.BancoDao" ref="DAObean"/>
+	</bean> -->
+	
+	<!-- <bean id="bancoVista" class="vista.BancoVistaImpl">
+		<property name="bancoNegocio" ref="pepito"/>
+	</bean>  -->
+	
+	<!-- Esto es para activar el @Autowired -->
+	<context:annotation-config/>
+	
+	<!-- En que paquetes debe buscar los @Component y sus especializaciones -->
+	<context:component-scan base-package="persistencia, negocio, vista"/> 
+	
+	<context:property-placeholder location="classpath:bbdd.properties"/>
+	<!-- le das el archivo de properties en dónde se indica los valores de url, driver
+	username, password. -->
+	
+	
+	<!-- este perfil y bean es para la bbdd curso_spring -->
+		<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+			<property name="url" value = "${bbdd.url}"/> 
+			<!-- ${} expression language, se utiliza para acceder a objetos java desde fuera de java -->
+			<property name="DriverClassName" value = "${bbdd.driver}"/>
+			<property name="Username" value = "${bbdd.user}"/>
+			<property name="Password" value = "${bbdd.pass}"/>
+		</bean>	
+	
+
+	
+
+	
+	
+</beans>
+
